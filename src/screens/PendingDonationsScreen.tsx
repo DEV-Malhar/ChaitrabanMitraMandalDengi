@@ -14,38 +14,72 @@ import { useFocusEffect } from "@react-navigation/native";
 import {
   getPendingDonations,
   markAsPaid,
+  deleteDonation,
 } from "../database/donationRepository";
 
 export default function PendingDonationsScreen() {
   const [donations, setDonations] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      const data = await getPendingDonations();
-
-      if (Array.isArray(data)) {
-        setDonations(data);
-      } else {
-        setDonations([]);
-      }
-    } catch (error) {
-      console.log("Load Error:", error);
-
-      Alert.alert("Error", "Pending donations load करण्यात समस्या आली.");
-    } finally {
-      setLoading(false);
-    }
+const loadData = async () => {
+  try {
+    setLoading(true);
 
     const data = await getPendingDonations();
 
-console.log("PENDING DATA =>", data);
+    console.log("PENDING DATA =>", data);
 
-if (Array.isArray(data)) {
-  setDonations(data);
-}
-  };
+    if (Array.isArray(data)) {
+      setDonations(data);
+    } else {
+      setDonations([]);
+    }
+  } catch (error) {
+    console.log("Load Error:", error);
+
+    Alert.alert(
+      "Error",
+      "Pending donations load करण्यात समस्या आली."
+    );
+  } finally {
+    setLoading(false);
+  }
+};
+
+const handleDelete = (id: number) => {
+  Alert.alert(
+    "Delete",
+    "ही देणगी नोंद हटवायची आहे का?",
+    [
+      {
+        text: "नाही",
+        style: "cancel",
+      },
+      {
+        text: "होय",
+        onPress: async () => {
+          try {
+            await deleteDonation(id);
+
+            Alert.alert(
+              "Success",
+              "देणगी नोंद हटवली गेली."
+            );
+
+            loadData();
+          } catch (error) {
+            console.log(error);
+
+            Alert.alert(
+              "Error",
+              "Delete करण्यात समस्या आली."
+            );
+          }
+        },
+      },
+    ]
+  );
+};
 
   useFocusEffect(
     useCallback(() => {
@@ -110,20 +144,57 @@ if (Array.isArray(data)) {
       keyExtractor={(item, index) => String(item.Id ?? index)}
       contentContainerStyle={styles.list}
       renderItem={({ item }) => (
-        <View style={styles.card}>
-          <Text style={styles.title}>{item.DonorName}</Text>
-          <Text>पावती: {item.ReceiptNo}</Text>
-          <Text>मोबाईल: {item.Mobile}</Text>
-          <Text>पत्ता: {item.Address}</Text>
-          <Text>रक्कम: ₹{item.Amount}</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => handleMarkPaid(item.Id)}
-          >
-            <Text style={styles.buttonText}>येणे प्राप्त झाले </Text>
-          </TouchableOpacity>
-        </View>
-      )}
+  <View style={styles.card}>
+    <Text style={styles.title}>
+      {item.DonorName}
+    </Text>
+
+    <Text>
+      पावती क्रमांक : {item.ReceiptNo}
+    </Text>
+
+    <Text>
+      मोबाईल : {item.Mobile}
+    </Text>
+
+    <Text>
+      पत्ता : {item.Address}
+    </Text>
+
+    <Text>
+      रक्कम : ₹{item.Amount}
+    </Text>
+
+    <Text>
+      संकलन दिनांक : {item.CollectionDate}
+    </Text>
+
+    <Text>
+      सुधारित दिनांक :
+      {item.ModifiedDate ?? "-"}
+    </Text>
+
+    <View style={styles.actionRow}>
+      <TouchableOpacity
+        style={styles.paidButton}
+        onPress={() => handleMarkPaid(item.Id)}
+      >
+        <Text style={styles.buttonText}>
+          येणे प्राप्त झाले
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={() => handleDelete(item.Id)}
+      >
+        <Text style={styles.buttonText}>
+          हटवा
+        </Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+)}
     />
   );
 }
@@ -153,11 +224,33 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
 
+  actionRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 12,
+  },
+
   button: {
     backgroundColor: "#2E7D32",
     marginTop: 10,
     padding: 12,
     borderRadius: 8,
+  },
+
+  paidButton: {
+    flex: 1,
+    backgroundColor: "#2E7D32",
+    padding: 10,
+    borderRadius: 8,
+    marginRight: 8,
+  },
+
+  deleteButton: {
+    flex: 1,
+    backgroundColor: "#C62828",
+    padding: 10,
+    borderRadius: 8,
+    marginLeft: 8,
   },
 
   buttonText: {
