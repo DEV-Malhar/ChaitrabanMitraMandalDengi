@@ -53,12 +53,14 @@ export const getAllDonations = async () => {
 };
 
 export const getPendingDonations = async () => {
-  return await db.getAllAsync(`
+  const rows = await db.getAllAsync(`
     SELECT *
     FROM Donations
-    WHERE Status = 'Unpaid'
+    WHERE Status = ?
     ORDER BY CollectionDate DESC
-  `);
+  `, ["Unpaid"]);
+
+  return rows;
 };
 
 export const markAsPaid = async (
@@ -66,7 +68,7 @@ export const markAsPaid = async (
   paymentMode: string
 ) => {
 
-  const paidDate =
+  const now =
     new Date().toISOString();
 
   await db.runAsync(
@@ -75,10 +77,16 @@ export const markAsPaid = async (
     SET
       Status='Paid',
       PaymentMode=?,
-      PaidDate=?
+      PaidDate=?,
+      ModifiedDate=?
     WHERE Id=?
     `,
-    [paymentMode, paidDate, id]
+    [
+      paymentMode,
+      now,
+      now,
+      id
+    ]
   );
 };
 
@@ -161,4 +169,100 @@ export const getDonorTypeReport = async () => {
     GROUP BY DonorType
     ORDER BY Total DESC
   `);
+};
+
+export const deleteDonation = async (
+  id: number
+) => {
+  await db.runAsync(
+    "DELETE FROM Donations WHERE Id=?",
+    [id]
+  );
+};
+
+export const updateDonation = async (
+  donation: Donation
+) => {
+
+  const modifiedDate =
+    new Date().toISOString();
+
+  await db.runAsync(
+    `
+    UPDATE Donations
+    SET
+      DonorName=?,
+      Mobile=?,
+      Address=?,
+      Lane=?,
+      DonorType=?,
+      Amount=?,
+      CollectorName=?,
+      Remarks=?,
+      ModifiedDate=?
+    WHERE Id=?
+    `,
+    [
+      donation.DonorName ?? null,
+      donation.Mobile ?? null,
+      donation.Address ?? null,
+      donation.Lane ?? null,
+      donation.DonorType ?? null,
+      donation.Amount ?? null,
+      donation.CollectorName ?? null,
+      donation.Remarks ?? null,
+      modifiedDate,
+      donation.Id ?? null
+    ]
+  );
+};
+
+export const receivePendingDonation = async (
+  donation: Donation
+) => {
+  const now =
+    new Date().toISOString();
+
+  if (donation.Id == null) {
+    throw new Error("Donation Id is required for receiving pending donation");
+  }
+
+  await db.runAsync(
+    `
+    UPDATE Donations
+    SET
+      Mobile=?,
+      Address=?,
+      Amount=?,
+      PaymentMode=?,
+      Remarks=?,
+      Status='Paid',
+      PaidDate=?,
+      ModifiedDate=?
+    WHERE Id=?
+    `,
+    [
+      donation.Mobile ?? null,
+      donation.Address ?? null,
+      donation.Amount ?? 0,
+      donation.PaymentMode ?? null,
+      donation.Remarks ?? null,
+      now,
+      now,
+      donation.Id
+    ]
+  );
+};
+
+export const getDonationById = async (
+  id: number
+) => {
+  return await db.getFirstAsync(
+    `
+    SELECT *
+    FROM Donations
+    WHERE Id = ?
+    `,
+    [id]
+  );
 };

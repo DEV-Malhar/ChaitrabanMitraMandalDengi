@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
   View,
@@ -8,7 +9,16 @@ import {
 
 export default function HomeScreen({ navigation }: any) {
   return (
-    <View style={styles.container}>
+    <LinearGradient
+        colors={[
+          'rgb(207, 187, 220)',
+          'rgb(214, 107, 107)',
+          'rgba(184, 82, 88, 0.73)',
+          ]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.container}
+        >
 
       <TouchableOpacity
         style={styles.card}
@@ -46,7 +56,7 @@ export default function HomeScreen({ navigation }: any) {
       <TouchableOpacity
         style={styles.card}
         onPress={() =>
-          navigation.navigate("UPIQR")
+          navigation.navigate("UpiQrScreen")
         }
       >
         <Text style={styles.cardText}>
@@ -54,7 +64,7 @@ export default function HomeScreen({ navigation }: any) {
         </Text>
       </TouchableOpacity>
 
-    </View>
+    </LinearGradient>
   );
 }
 
@@ -62,7 +72,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
-    backgroundColor: "#FFF8E1",
+    backgroundColor: "#fcffe1",
   },
 
   card: {
@@ -76,5 +86,6 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 18,
     fontWeight: "600",
+    fontcolor: "#333",
   },
 });

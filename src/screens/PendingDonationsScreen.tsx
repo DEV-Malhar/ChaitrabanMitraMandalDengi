@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import {
   getPendingDonations,
@@ -20,6 +20,7 @@ import {
 export default function PendingDonationsScreen() {
   const [donations, setDonations] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation<any>();
 
 const loadData = async () => {
   try {
@@ -185,6 +186,22 @@ const handleDelete = (id: number) => {
       </TouchableOpacity>
 
       <TouchableOpacity
+    style={styles.editButton}
+    onPress={() =>
+      navigation.navigate(
+        "EditDonation",
+        {
+          donationId: item.Id,
+        }
+      )
+    }
+  >
+    <Text style={styles.buttonText}>
+      संपादन
+    </Text>
+  </TouchableOpacity>
+
+      <TouchableOpacity
         style={styles.deleteButton}
         onPress={() => handleDelete(item.Id)}
       >
@@ -258,4 +275,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
+
+  editButton: {
+  flex: 1,
+  backgroundColor: "#F57C00",
+  padding: 10,
+  borderRadius: 8,
+  marginHorizontal: 4,
+},
 });

@@ -26,4 +26,7 @@ export interface Donation {
   CollectorName: string;
 
   Remarks?: string;
+
+  CreatedDate?: string;
+  ModifiedDate?: string;
 }

@@ -31,7 +31,11 @@ export const initializeDatabase = async () => {
 
       CollectorName TEXT,
 
-      Remarks TEXT
+      Remarks TEXT,
+      
+      CreatedDate TEXT,
+      
+      ModifiedDate TEXT
     );
   `);
 
