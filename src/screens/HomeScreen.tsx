@@ -86,6 +86,5 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 18,
     fontWeight: "600",
-    fontcolor: "#333",
   },
 });
