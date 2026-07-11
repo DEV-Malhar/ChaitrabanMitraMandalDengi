@@ -311,3 +311,9 @@ export const getFilteredDonations = async (
 
   return await db.getAllAsync(query, params);
 };
+
+export const deleteAllDonations = async () => {
+  await db.runAsync(`
+    DELETE FROM Donations
+  `);
+};

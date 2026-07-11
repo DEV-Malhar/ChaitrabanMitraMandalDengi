@@ -64,6 +64,17 @@ export default function HomeScreen({ navigation }: any) {
         </Text>
       </TouchableOpacity>
 
+      <TouchableOpacity
+  style={styles.card}
+  onPress={() =>
+    navigation.navigate("AdminClearData")
+  }
+>
+  <Text style={styles.cardText}>
+    🗑️ डेटा साफ करा
+  </Text>
+</TouchableOpacity>
+
     </LinearGradient>
   );
 }

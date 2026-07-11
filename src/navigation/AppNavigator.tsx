@@ -9,6 +9,7 @@ import PendingDonationsScreen from '../screens/PendingDonationsScreen';
 import EditDonationScreen from '../screens/EditDonationScreen';
 import ReportsScreen from '../screens/ReportsScreen';
 import UpiQrScreen from '../screens/UpiQrScreen';
+import AdminClearDataScreen from '../screens/AdminClearDataScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -88,6 +89,14 @@ export default function AppNavigator() {
           component={UpiQrScreen}
           options={{
             title: 'UPI QR',
+          }}
+        />
+
+        <Stack.Screen
+          name="AdminClearData"
+          component={AdminClearDataScreen}
+          options={{
+            title: 'डेटा साफ करा',
           }}
         />
       </Stack.Navigator>
