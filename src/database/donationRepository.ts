@@ -67,11 +67,11 @@ export const markAsPaid = async (
   id: number,
   paymentMode: string
 ) => {
+  const now = new Date().toISOString();
 
-  const now =
-    new Date().toISOString();
+  console.log("Updating Id =>", id);
 
-  await db.runAsync(
+  const result = await db.runAsync(
     `
     UPDATE Donations
     SET
@@ -85,9 +85,18 @@ export const markAsPaid = async (
       paymentMode,
       now,
       now,
-      id
+      id,
     ]
   );
+
+  console.log("UPDATE RESULT =>", result);
+
+  const updated = await db.getFirstAsync(
+    `SELECT * FROM Donations WHERE Id = ?`,
+    [id]
+  );
+
+  console.log("UPDATED RECORD =>", updated);
 };
 
 export const getDailyCollection = async (
@@ -265,4 +274,40 @@ export const getDonationById = async (
     `,
     [id]
   );
+};
+
+export const getFilteredDonations = async (
+  collectionDate?: string,
+  status?: string,
+  lane?: string
+) => {
+  let query = `
+    SELECT *
+    FROM Donations
+    WHERE 1=1
+  `;
+
+  const params: any[] = [];
+
+  if (collectionDate) {
+    query += ` AND CollectionDate = ?`;
+    params.push(collectionDate);
+  }
+
+  if (status && status !== "All") {
+    query += ` AND Status = ?`;
+    params.push(status);
+  }
+
+  if (lane && lane !== "All") {
+    query += ` AND Lane = ?`;
+    params.push(lane);
+  }
+
+  query += `
+    ORDER BY CollectionDate DESC,
+             ReceiptNo DESC
+  `;
+
+  return await db.getAllAsync(query, params);
 };
