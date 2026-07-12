@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ChaitrabanMitraMandalDengi",
-    "slug": "ChaitrabanMitraMandalDengi",
+    "name": "Chaitraban Mitra Mandal Dengi",
+    "slug": "chaitraban-mitra-mandal-dengi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,6 +10,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.chaitraban.mitramandal.dengi",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -24,6 +26,11 @@
     "plugins": [
       "@react-native-community/datetimepicker",
       "expo-sharing"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "966309c3-f00b-4310-a811-afcf565ffa2c"
+      }
+    }
   }
 }
