@@ -8,7 +8,8 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
-
+import { Modal } from "react-native";
+import QRCode from "react-native-qrcode-svg";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import {
@@ -21,66 +22,70 @@ export default function PendingDonationsScreen() {
   const [donations, setDonations] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<any>();
+  const [showQr, setShowQr] = useState(false);
+  const [selectedDonation, setSelectedDonation] = useState<any>(null);
+  const [upiUrl, setUpiUrl] = useState("");
+  const defaultUpiId =
+  "malhar007mk-2@okicici";
+  const loadData = async () => {
+    try {
+      setLoading(true);
 
-const loadData = async () => {
-  try {
-    setLoading(true);
+      const data = await getPendingDonations();
 
-    const data = await getPendingDonations();
+      console.log("PENDING DATA =>", data);
 
-    console.log("PENDING DATA =>", data);
+      if (Array.isArray(data)) {
+        setDonations(data);
+      } else {
+        setDonations([]);
+      }
+    } catch (error) {
+      console.log("Load Error:", error);
 
-    if (Array.isArray(data)) {
-      setDonations(data);
-    } else {
-      setDonations([]);
+      Alert.alert(
+        "Error",
+        "Pending donations load करण्यात समस्या आली."
+      );
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.log("Load Error:", error);
+  };
 
+  const handleDelete = (id: number) => {
     Alert.alert(
-      "Error",
-      "Pending donations load करण्यात समस्या आली."
-    );
-  } finally {
-    setLoading(false);
-  }
-};
-
-const handleDelete = (id: number) => {
-  Alert.alert(
-    "Delete",
-    "ही देणगी नोंद हटवायची आहे का?",
-    [
-      {
-        text: "नाही",
-        style: "cancel",
-      },
-      {
-        text: "होय",
-        onPress: async () => {
-          try {
-            await deleteDonation(id);
-
-            Alert.alert(
-              "Success",
-              "देणगी नोंद हटवली गेली."
-            );
-
-            loadData();
-          } catch (error) {
-            console.log(error);
-
-            Alert.alert(
-              "Error",
-              "Delete करण्यात समस्या आली."
-            );
-          }
+      "Delete",
+      "ही देणगी नोंद हटवायची आहे का?",
+      [
+        {
+          text: "नाही",
+          style: "cancel",
         },
-      },
-    ]
-  );
-};
+        {
+          text: "होय",
+          onPress: async () => {
+            try {
+              await deleteDonation(id);
+
+              Alert.alert(
+                "Success",
+                "देणगी नोंद हटवली गेली."
+              );
+
+              loadData();
+            } catch (error) {
+              console.log(error);
+
+              Alert.alert(
+                "Error",
+                "Delete करण्यात समस्या आली."
+              );
+            }
+          },
+        },
+      ]
+    );
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -88,33 +93,44 @@ const handleDelete = (id: number) => {
     }, [])
   );
 
-  const handleMarkPaid = (id: number) => {
+  const handleMarkPaid = (item: any) => {
     Alert.alert("Payment Mode", "Payment Mode निवडा", [
       {
         text: "Cash",
         onPress: async () => {
           try {
-            await markAsPaid(id, "Cash");
+            await markAsPaid(item.Id, "Cash");
             Alert.alert("Success", "Payment Paid म्हणून अपडेट झाले.");
             loadData();
           } catch (error) {
             console.log(error);
-            Alert.alert("Error", "Update करण्यात समस्या आली.");
+            Alert.alert("Error", "Update करण्यात समस्या झाली.");
           }
         },
       },
       {
         text: "UPI",
-        onPress: async () => {
-          try {
-            await markAsPaid(id, "UPI");
-            Alert.alert("Success", "Payment Paid म्हणून अपडेट झाले.");
-            loadData();
-          } catch (error) {
-            console.log(error);
-            Alert.alert("Error", "Update करण्यात समस्या आली.");
-          }
-        },
+        onPress: () => {
+
+    const remark =
+      `ReceiptNo-${item.ReceiptNo}`;
+
+    const qrUrl =
+      `upi://pay?pa=${defaultUpiId}` +
+      `&pn=${encodeURIComponent(
+        "Chaitraban Mitra Mandal"
+      )}` +
+      `&am=${item.Amount}` +
+      `&tn=${encodeURIComponent(
+        remark
+      )}`;
+
+    setSelectedDonation(item);
+
+    setUpiUrl(qrUrl);
+
+    setShowQr(true);
+  },
       },
       {
         text: "Cancel",
@@ -178,7 +194,7 @@ const handleDelete = (id: number) => {
     <View style={styles.actionRow}>
       <TouchableOpacity
         style={styles.paidButton}
-        onPress={() => handleMarkPaid(item.Id)}
+        onPress={() => handleMarkPaid(item)}
       >
         <Text style={styles.buttonText}>
           येणे प्राप्त झाले
@@ -209,6 +225,141 @@ const handleDelete = (id: number) => {
           हटवा
         </Text>
       </TouchableOpacity>
+
+      <Modal
+  visible={showQr}
+  transparent
+  animationType="slide"
+>
+  <View
+    style={{
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor:
+        "rgba(0,0,0,0.5)",
+    }}
+  >
+    <View
+      style={{
+        width: "90%",
+        backgroundColor: "#FFF",
+        padding: 20,
+        borderRadius: 15,
+        alignItems: "center",
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 20,
+          fontWeight: "bold",
+          marginBottom: 10,
+        }}
+      >
+        Chaitraban Mitra Mandal
+      </Text>
+
+      <Text
+        style={{
+          fontSize: 24,
+          fontWeight: "bold",
+          color: "#2E7D32",
+          marginBottom: 15,
+        }}
+      >
+        ₹ {selectedDonation?.Amount}
+      </Text>
+
+      <QRCode
+        value={upiUrl}
+        size={220}
+      />
+
+      <Text
+        style={{
+          marginTop: 15,
+        }}
+      >
+        Receipt No:
+        {selectedDonation?.ReceiptNo}
+      </Text>
+
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: 20,
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            backgroundColor:
+              "#C62828",
+            padding: 12,
+            borderRadius: 8,
+            marginRight: 5,
+          }}
+          onPress={() => {
+            setShowQr(false);
+          }}
+        >
+          <Text
+            style={{
+              color: "#FFF",
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            Cancel
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            backgroundColor:
+              "#2E7D32",
+            padding: 12,
+            borderRadius: 8,
+            marginLeft: 5,
+          }}
+          onPress={async () => {
+            try {
+
+              await markAsPaid(
+                selectedDonation.Id,
+                "UPI"
+              );
+
+              setShowQr(false);
+
+              Alert.alert(
+                "Success",
+                "UPI पेमेंट प्राप्त झाले."
+              );
+
+              loadData();
+
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+        >
+          <Text
+            style={{
+              color: "#FFF",
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            Payment Received
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </View>
+</Modal>
+
     </View>
   </View>
 )}
