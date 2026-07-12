@@ -1,12 +1,24 @@
 import React, { useState } from "react";
-import {View,Text,TextInput,TouchableOpacity,StyleSheet,ScrollView,} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { useRoute } from "@react-navigation/native";
 
 import QRCode from "react-native-qrcode-svg";
 
 export default function UpiQrScreen() {
+
+  const route = useRoute<any>();
+
+const [amount, setAmount] = useState(
+  route.params?.amount?.toString() ?? ""
+);
+
+const [receiptNo, setReceiptNo] = useState(
+  route.params?.receiptNo ?? ""
+);
+
   const [upiId, setUpiId] = useState("");
-  const [receiptNo, setReceiptNo] = useState("");
-  const [amount, setAmount] = useState("");
+  // const [receiptNo, setReceiptNo] = useState("");
+  // const [amount, setAmount] = useState("");
   const [name, setName] = useState("Chaitraban Mitra Mandal");
 
   const [upiLink, setUpiLink] = useState("");
@@ -164,3 +176,4 @@ receiptText: {
     color: "green",
   },
 });
+

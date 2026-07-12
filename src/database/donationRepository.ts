@@ -1,11 +1,53 @@
 import db from "./database";
 import { Donation } from "../models/Donation";
 
+// export const createDonation = async (
+//   donation: Donation
+// ) => {
+
+//   await db.runAsync(
+//     `
+//     INSERT INTO Donations
+//     (
+//       ReceiptNo,
+//       CollectionDate,
+//       DonorName,
+//       Mobile,
+//       Address,
+//       Lane,
+//       DonorType,
+//       Amount,
+//       PaymentMode,
+//       Status,
+//       PaidDate,
+//       CollectorName,
+//       Remarks
+//     )
+//     VALUES
+//     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+//     `,
+//     [
+//       donation.ReceiptNo,
+//       donation.CollectionDate,
+//       donation.DonorName,
+//       donation.Mobile,
+//       donation.Address,
+//       donation.Lane,
+//       donation.DonorType,
+//       donation.Amount,
+//       donation.PaymentMode,
+//       donation.Status,
+//       donation.PaidDate ?? null,
+//       donation.CollectorName,
+//       donation.Remarks ?? null
+//     ]
+//   );
+// };
+
 export const createDonation = async (
   donation: Donation
 ) => {
-
-  await db.runAsync(
+  const result = await db.runAsync(
     `
     INSERT INTO Donations
     (
@@ -39,11 +81,12 @@ export const createDonation = async (
       donation.Status,
       donation.PaidDate ?? null,
       donation.CollectorName,
-      donation.Remarks ?? null
+      donation.Remarks ?? null,
     ]
   );
-};
 
+  return result.lastInsertRowId;
+};
 export const getAllDonations = async () => {
   return await db.getAllAsync(`
     SELECT *
@@ -316,4 +359,28 @@ export const deleteAllDonations = async () => {
   await db.runAsync(`
     DELETE FROM Donations
   `);
+};
+
+export const updateDonationPaymentStatus = async (
+  id: number,
+  paymentMode: string,
+  status: string
+) => {
+  await db.runAsync(
+    `
+    UPDATE Donations
+    SET
+      PaymentMode = ?,
+      Status = ?,
+      PaidDate = NULL,
+      ModifiedDate = ?
+    WHERE Id = ?
+    `,
+    [
+      paymentMode,
+      status,
+      new Date().toISOString(),
+      id,
+    ]
+  );
 };
