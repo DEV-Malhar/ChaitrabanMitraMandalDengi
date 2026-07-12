@@ -11,9 +11,9 @@ export default function HomeScreen({ navigation }: any) {
   return (
     <LinearGradient
         colors={[
-          'rgb(207, 187, 220)',
-          'rgb(214, 107, 107)',
-          'rgba(184, 82, 88, 0.73)',
+          'rgb(201, 183, 213)',
+          'rgb(231, 219, 219)',
+          'rgba(227, 142, 148, 0.73)',
           ]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
@@ -21,18 +21,18 @@ export default function HomeScreen({ navigation }: any) {
         >
 
       <TouchableOpacity
-        style={styles.card}
-        onPress={() =>
-          navigation.navigate("AddDonation")
-        }
-      >
+  style={[styles.card, styles.addDonationCard]}
+  onPress={() =>
+    navigation.navigate("AddDonation")
+  }
+>
         <Text style={styles.cardText}>
           ➕ नवीन देणगी
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.card}
+        style={[styles.card, styles.pendingCard]}
         onPress={() =>
           navigation.navigate("PendingDonations")
         }
@@ -43,7 +43,9 @@ export default function HomeScreen({ navigation }: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.card}
+        style={[styles.card, styles.reportCard]
+
+        }
         onPress={() =>
           navigation.navigate("Reports")
         }
@@ -54,7 +56,7 @@ export default function HomeScreen({ navigation }: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.card}
+        style={[styles.card, styles.upiCard]}
         onPress={() =>
           navigation.navigate("UpiQrScreen")
         }
@@ -65,7 +67,7 @@ export default function HomeScreen({ navigation }: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
-  style={styles.card}
+  style={[styles.card, styles.adminCard]}
   onPress={() =>
     navigation.navigate("AdminClearData")
   }
@@ -86,16 +88,46 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcffe1",
   },
 
-  card: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 15,
-    elevation: 3,
-  },
+card: {
+  padding: 20,
+  borderRadius: 18,
+  marginBottom: 15,
 
-  cardText: {
-    fontSize: 18,
-    fontWeight: "600",
+  elevation: 8,
+
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 4,
   },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+},
+
+cardText: {
+  fontSize: 20,
+  fontWeight: "700",
+  color: "#FFFFFF",
+  textAlign: "justify",
+},
+
+addDonationCard: {
+  backgroundColor: "#2E7D32", // Green
+},
+
+pendingCard: {
+  backgroundColor: "#EF6C00", // Orange
+},
+
+reportCard: {
+  backgroundColor: "#1565C0", // Blue
+},
+
+upiCard: {
+  backgroundColor: "#6A1B9A", // Purple
+},
+
+adminCard: {
+  backgroundColor: "#C62828", // Red
+},
 });
