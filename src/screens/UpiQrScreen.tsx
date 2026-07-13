@@ -112,68 +112,122 @@ const [receiptNo, setReceiptNo] = useState(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 15,
-    backgroundColor: "#FFF8E1",
+    padding: 20,
+    backgroundColor: "#F8F6F1",
   },
 
-receiptText: {
-  marginTop: 10,
-  fontSize: 16,
-  fontWeight: "bold",
-},
-
   header: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#1F2937",
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 25,
+    letterSpacing: 0.5,
   },
 
   label: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "600",
-    marginTop: 10,
-    marginBottom: 5,
+    color: "#374151",
+    marginTop: 14,
+    marginBottom: 6,
   },
 
   input: {
-    backgroundColor: "#FFF",
+    backgroundColor: "#FFFFFF",
+
     borderWidth: 1,
-    borderColor: "#DDD",
-    borderRadius: 8,
-    padding: 12,
+    borderColor: "#E5E7EB",
+
+    borderRadius: 14,
+
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+
+    fontSize: 15,
+    color: "#111827",
+
+    elevation: 2,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
   },
 
   button: {
-    backgroundColor: "#FF6F00",
-    padding: 15,
-    borderRadius: 8,
-    marginTop: 20,
+    backgroundColor: "#7C3AED",
+
+    paddingVertical: 16,
+
+    borderRadius: 16,
+
+    marginTop: 25,
+
+    elevation: 6,
+
+    shadowColor: "#7C3AED",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
   },
 
   buttonText: {
-    color: "#FFF",
+    color: "#FFFFFF",
     textAlign: "center",
-    fontWeight: "bold",
+    fontWeight: "700",
     fontSize: 16,
+    letterSpacing: 0.5,
   },
 
   qrContainer: {
+    marginTop: 35,
+
+    backgroundColor: "#FFFFFF",
+
+    borderRadius: 20,
+
+    padding: 25,
+
     alignItems: "center",
-    marginTop: 30,
+
+    elevation: 4,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+  },
+
+  receiptText: {
+    marginTop: 18,
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#1F2937",
   },
 
   upiText: {
-    marginTop: 15,
-    fontWeight: "bold",
-    fontSize: 16,
+    marginTop: 18,
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#374151",
+    textAlign: "center",
   },
 
   amountText: {
-    marginTop: 5,
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "green",
+    marginTop: 10,
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#16A34A",
   },
 });
 

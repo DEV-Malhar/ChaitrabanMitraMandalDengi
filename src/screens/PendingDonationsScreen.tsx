@@ -11,7 +11,7 @@ import {
 import { Modal } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-
+import { UPI_ID } from "../constants/upiIds"; // Import the UPI ID from constants
 import {
   getPendingDonations,
   markAsPaid,
@@ -25,8 +25,7 @@ export default function PendingDonationsScreen() {
   const [showQr, setShowQr] = useState(false);
   const [selectedDonation, setSelectedDonation] = useState<any>(null);
   const [upiUrl, setUpiUrl] = useState("");
-  const defaultUpiId =
-  "malhar007mk-2@okicici";
+  
   const loadData = async () => {
     try {
       setLoading(true);
@@ -116,7 +115,7 @@ export default function PendingDonationsScreen() {
       `ReceiptNo-${item.ReceiptNo}`;
 
     const qrUrl =
-      `upi://pay?pa=${defaultUpiId}` +
+      `upi://pay?pa=${UPI_ID}` +
       `&pn=${encodeURIComponent(
         "Chaitraban Mitra Mandal"
       )}` +
@@ -162,34 +161,31 @@ export default function PendingDonationsScreen() {
       contentContainerStyle={styles.list}
       renderItem={({ item }) => (
   <View style={styles.card}>
-    <Text style={styles.title}>
-      {item.DonorName}
-    </Text>
+    <Text style={styles.title}>नाव : {item.DonorName}</Text>
+    <View style={styles.twoColumnRow}>
+      
+  <Text style={styles.columnText}>
+    पावती: {item.ReceiptNo}
+  </Text>
 
-    <Text>
-      पावती क्रमांक : {item.ReceiptNo}
-    </Text>
+  <Text style={styles.columnText}>
+    गल्ली: {item.Lane}
+  </Text>
+</View>
 
-    <Text>
-      मोबाईल : {item.Mobile}
-    </Text>
+<View style={styles.twoColumnRow}>
+  <Text style={styles.columnText}>
+    रक्कम ₹ {item.Amount}
+  </Text>
 
-    <Text>
-      पत्ता : {item.Address}
-    </Text>
+  <Text style={styles.columnText}>
+   संकलन दिनांक : {item.CollectionDate}
+  </Text>
+</View>
 
-    <Text>
-      रक्कम : ₹{item.Amount}
-    </Text>
-
-    <Text>
-      संकलन दिनांक : {item.CollectionDate}
-    </Text>
-
-    <Text>
-      सुधारित दिनांक :
-      {item.ModifiedDate ?? "-"}
-    </Text>
+<Text style={styles.addressText}>
+  पत्ता : {item.Address}
+</Text>
 
     <View style={styles.actionRow}>
       <TouchableOpacity
@@ -385,6 +381,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     elevation: 2,
   },
+
+  twoColumnRow: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  marginBottom: 6,
+},
+
+columnText: {
+  flex: 1,
+  fontSize: 14,
+},
+
+addressText: {
+  marginTop: 4,
+  color: "#4B5563",
+},
 
   title: {
     fontSize: 18,

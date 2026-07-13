@@ -136,43 +136,79 @@ export default function AdminClearDataScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#FFF8E1",
+    backgroundColor: "#F8F6F1",
+    paddingHorizontal: 20,
+    paddingTop: 25,
   },
 
   header: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#1F2937",
     textAlign: "center",
-    marginBottom: 25,
+    marginBottom: 30,
+    letterSpacing: 0.5,
   },
 
   label: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "600",
-    marginBottom: 5,
-    marginTop: 10,
+    color: "#374151",
+    marginTop: 16,
+    marginBottom: 8,
   },
 
   input: {
     backgroundColor: "#FFFFFF",
+
     borderWidth: 1,
-    borderColor: "#DDD",
-    borderRadius: 8,
-    padding: 12,
+    borderColor: "#E5E7EB",
+
+    borderRadius: 14,
+
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+
+    fontSize: 15,
+    color: "#111827",
+
+    elevation: 2,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
   },
 
   deleteButton: {
-    backgroundColor: "#C62828",
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 30,
+    backgroundColor: "#DC2626",
+
+    paddingVertical: 16,
+
+    borderRadius: 14,
+
     alignItems: "center",
+
+    marginTop: 35,
+
+    elevation: 6,
+
+    shadowColor: "#DC2626",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
   },
 
   deleteButtonText: {
     color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 17,
+    fontWeight: "700",
+    letterSpacing: 0.5,
   },
 });

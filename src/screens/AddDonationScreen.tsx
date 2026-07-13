@@ -16,6 +16,7 @@ import { DONOR_TYPES } from "../constants/donorTypes";
 import { LANES } from "../constants/lanes";
 import { PAYMENT_MODES } from "../constants/paymentModes";
 import { useNavigation } from "@react-navigation/native";
+import { UPI_ID } from "../constants/upiIds"; // Import the UPI ID from constants
 
 export default function AddDonationScreen() {
   const today = new Date().toISOString().split("T")[0];
@@ -36,8 +37,9 @@ export default function AddDonationScreen() {
   const [qrAmount, setQrAmount] = useState("");
   const [qrReceiptNo, setQrReceiptNo] = useState("");
   const [savedDonationId, setSavedDonationId] = useState<number | null>(null);
+  
 
-  const defaultUpiId = "malhar007mk-2@okicici"; // Replace with your default UPI ID
+
   const handleSave = async () => {
     if (!receiptNo.trim()) {
       Alert.alert("Validation", "कृपया पावती क्रमांक भरा");
@@ -88,7 +90,7 @@ export default function AddDonationScreen() {
         const remark = `ReceiptNo-${receiptNo}`;
 
         const qrUrl =
-          `upi://pay?pa=${defaultUpiId}` +
+          `upi://pay?pa=${UPI_ID}` +
           `&pn=Chaitraban Mitra Mandal` +
           `&am=${amount}` +
           `&tn=${encodeURIComponent(remark)}`;
@@ -127,6 +129,7 @@ export default function AddDonationScreen() {
   };
 
   return (
+    
     <ScrollView style={styles.container}>
       <Text style={styles.label}>पावती क्रमांक / Receipt No</Text>
 
@@ -393,50 +396,112 @@ export default function AddDonationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF8E1",
-    padding: 15,
+    backgroundColor: "#F8F6F1",
+    padding: 16,
   },
 
   label: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "600",
-    marginTop: 10,
-    marginBottom: 5,
+    color: "#374151",
+    marginTop: 14,
+    marginBottom: 6,
+    marginLeft: 2,
   },
 
   input: {
     backgroundColor: "#FFFFFF",
+
     borderWidth: 1,
-    borderColor: "#DDDDDD",
-    borderRadius: 8,
-    padding: 12,
+    borderColor: "#E5E7EB",
+
+    borderRadius: 14,
+
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+
+    fontSize: 15,
+    color: "#111827",
+
+    elevation: 2,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
   },
 
   pickerContainer: {
     backgroundColor: "#FFFFFF",
+
     borderWidth: 1,
-    borderColor: "#DDDDDD",
-    borderRadius: 8,
+    borderColor: "#E5E7EB",
+
+    borderRadius: 14,
+
     overflow: "hidden",
+
+    elevation: 2,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
   },
 
   remarks: {
-    height: 90,
+    height: 110,
     textAlignVertical: "top",
   },
 
   saveButton: {
-    backgroundColor: "#FF6F00",
-    padding: 15,
-    borderRadius: 8,
+    backgroundColor: "#7C3AED",
+
+    paddingVertical: 16,
+
+    borderRadius: 16,
+
     alignItems: "center",
-    marginTop: 20,
-    marginBottom: 30,
+
+    marginTop: 30,
+    marginBottom: 40,
+
+    elevation: 6,
+
+    shadowColor: "#7C3AED",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
   },
 
   saveButtonText: {
     color: "#FFFFFF",
-    fontWeight: "bold",
-    fontSize: 18,
+    fontWeight: "700",
+    fontSize: 17,
+    letterSpacing: 0.5,
   },
+  formCard: {
+  backgroundColor: "#FFFFFF",
+  borderRadius: 20,
+  padding: 16,
+
+  elevation: 4,
+
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 4,
+  },
+  shadowOpacity: 0.08,
+  shadowRadius: 8,
+},
 });

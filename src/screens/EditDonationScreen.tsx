@@ -117,10 +117,7 @@ export default function EditDonationScreen({
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.heading}>
-        देणगी संपादन
-      </Text>
-
+     
       <Text style={styles.label}>
         पावती क्रमांक
       </Text>
@@ -261,62 +258,113 @@ export default function EditDonationScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF8E1",
-    padding: 15,
+    backgroundColor: "#F8F6F1",
+    padding: 16,
   },
 
   heading: {
-    fontSize: 22,
-    fontWeight: "bold",
+    fontSize: 26,
+    fontWeight: "700",
+    color: "#1F2937",
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 25,
+    letterSpacing: 0.5,
   },
 
   label: {
-    marginTop: 10,
-    marginBottom: 5,
+    fontSize: 15,
     fontWeight: "600",
+    color: "#374151",
+    marginTop: 14,
+    marginBottom: 6,
+    marginLeft: 2,
   },
 
   input: {
     backgroundColor: "#FFFFFF",
+
     borderWidth: 1,
-    borderColor: "#DDD",
-    borderRadius: 8,
-    padding: 12,
+    borderColor: "#E5E7EB",
+
+    borderRadius: 14,
+
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+
+    fontSize: 15,
+    color: "#111827",
+
+    elevation: 2,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
   },
 
   pickerContainer: {
     backgroundColor: "#FFFFFF",
+
     borderWidth: 1,
-    borderColor: "#DDD",
-    borderRadius: 8,
+    borderColor: "#E5E7EB",
+
+    borderRadius: 14,
+
     overflow: "hidden",
+
+    elevation: 2,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
   },
 
   remarks: {
-    height: 90,
+    height: 110,
     textAlignVertical: "top",
   },
 
   saveButton: {
-    backgroundColor: "#FF6F00",
-    padding: 15,
-    borderRadius: 8,
-    marginTop: 20,
-    marginBottom: 30,
+    backgroundColor: "#7C3AED",
+
+    paddingVertical: 16,
+
+    borderRadius: 16,
+
+    marginTop: 30,
+    marginBottom: 40,
+
+    alignItems: "center",
+
+    elevation: 6,
+
+    shadowColor: "#7C3AED",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
   },
 
   saveButtonText: {
     color: "#FFFFFF",
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 17,
+    fontWeight: "700",
+    letterSpacing: 0.5,
   },
 
   center: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#F8F6F1",
   },
 });
