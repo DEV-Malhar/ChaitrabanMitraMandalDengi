@@ -11,12 +11,13 @@ import {
 import { Modal } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { UPI_ID } from "../constants/upiIds"; // Import the UPI ID from constants
+// import { UPI_ID } from "../constants/upiIds"; // Import the UPI ID from constants
 import {
   getPendingDonations,
   markAsPaid,
   deleteDonation,
 } from "../database/donationRepository";
+import { getDefaultUpi } from "../database/upiRepository";
 
 export default function PendingDonationsScreen() {
   const [donations, setDonations] = useState<any[]>([]);
@@ -25,10 +26,16 @@ export default function PendingDonationsScreen() {
   const [showQr, setShowQr] = useState(false);
   const [selectedDonation, setSelectedDonation] = useState<any>(null);
   const [upiUrl, setUpiUrl] = useState("");
-  
+  const [upiId, setUpiId] = useState<string>("");
+
   const loadData = async () => {
     try {
       setLoading(true);
+
+      const defaultUpi: any = await getDefaultUpi();
+      if (defaultUpi && defaultUpi.UpiId) {
+        setUpiId(defaultUpi.UpiId);
+      }
 
       const data = await getPendingDonations();
 
@@ -115,7 +122,7 @@ export default function PendingDonationsScreen() {
       `ReceiptNo-${item.ReceiptNo}`;
 
     const qrUrl =
-      `upi://pay?pa=${UPI_ID}` +
+      `upi://pay?pa=${upiId}` +
       `&pn=${encodeURIComponent(
         "Chaitraban Mitra Mandal"
       )}` +

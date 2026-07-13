@@ -43,6 +43,13 @@ export default function HomeScreen({ navigation }: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        style={[styles.card, styles.upiCard]}
+        onPress={() => navigation.navigate("UpiSettings")}
+      >
+        <Text style={styles.cardText}>⚙️ UPI Settings</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
         style={[styles.card, styles.adminCard]}
         onPress={() => navigation.navigate("AdminClearData")}
       >
@@ -50,7 +57,9 @@ export default function HomeScreen({ navigation }: any) {
       </TouchableOpacity>
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>© 2026 Chaitraban Mitra Mandal Dengi App</Text>
+        <Text style={styles.footerText}>
+          © 2026 Chaitraban Mitra Mandal Dengi App
+        </Text>
 
         <Text style={styles.footerSubText}>
           Version 1.0.0 | Developed by Malhar Kshirsagar

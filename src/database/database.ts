@@ -37,6 +37,15 @@ export const initializeDatabase = async () => {
       
       ModifiedDate TEXT
     );
+    CREATE TABLE IF NOT EXISTS UpiAccounts (
+  Id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+  AccountName TEXT NOT NULL,
+
+  UpiId TEXT NOT NULL,
+
+  IsDefault INTEGER DEFAULT 0
+);
   `);
 
   console.log("Database initialized");

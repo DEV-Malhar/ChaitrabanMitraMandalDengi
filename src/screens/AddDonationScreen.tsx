@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -16,7 +16,7 @@ import { DONOR_TYPES } from "../constants/donorTypes";
 import { LANES } from "../constants/lanes";
 import { PAYMENT_MODES } from "../constants/paymentModes";
 import { useNavigation } from "@react-navigation/native";
-import { UPI_ID } from "../constants/upiIds"; // Import the UPI ID from constants
+import { getDefaultUpi } from "../database/upiRepository";
 
 export default function AddDonationScreen() {
   const today = new Date().toISOString().split("T")[0];
@@ -38,7 +38,22 @@ export default function AddDonationScreen() {
   const [qrReceiptNo, setQrReceiptNo] = useState("");
   const [savedDonationId, setSavedDonationId] = useState<number | null>(null);
   
+  const [upiId, setUpiId] = useState<string | null>(null);
 
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const defaultUpi = await getDefaultUpi();
+        if (mounted) setUpiId((defaultUpi as any)?.UpiId ?? null);
+      } catch (e) {
+        console.log("Failed to load default UPI", e);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const handleSave = async () => {
     if (!receiptNo.trim()) {
@@ -87,10 +102,15 @@ export default function AddDonationScreen() {
       setSavedDonationId(Number(donationId));
 
       if (paymentMode === "UPI") {
+        if (!upiId) {
+          Alert.alert("Error", "UPI ID is not configured");
+          return;
+        }
+
         const remark = `ReceiptNo-${receiptNo}`;
 
         const qrUrl =
-          `upi://pay?pa=${UPI_ID}` +
+          `upi://pay?pa=${upiId}` +
           `&pn=Chaitraban Mitra Mandal` +
           `&am=${amount}` +
           `&tn=${encodeURIComponent(remark)}`;
