@@ -37,7 +37,7 @@ export default function AddDonationScreen() {
   const [qrAmount, setQrAmount] = useState("");
   const [qrReceiptNo, setQrReceiptNo] = useState("");
   const [savedDonationId, setSavedDonationId] = useState<number | null>(null);
-  
+
   const [upiId, setUpiId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -149,8 +149,12 @@ export default function AddDonationScreen() {
   };
 
   return (
-    
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{
+        paddingBottom: 100,
+      }}
+    >
       <Text style={styles.label}>पावती क्रमांक / Receipt No</Text>
 
       <TextInput
@@ -510,18 +514,18 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   formCard: {
-  backgroundColor: "#FFFFFF",
-  borderRadius: 20,
-  padding: 16,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 20,
+    padding: 16,
 
-  elevation: 4,
+    elevation: 4,
 
-  shadowColor: "#000",
-  shadowOffset: {
-    width: 0,
-    height: 4,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
   },
-  shadowOpacity: 0.08,
-  shadowRadius: 8,
-},
 });

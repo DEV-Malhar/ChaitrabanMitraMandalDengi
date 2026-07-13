@@ -1,20 +1,22 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { useRoute } from "@react-navigation/native";
 
 import QRCode from "react-native-qrcode-svg";
 
 export default function UpiQrScreen() {
-
   const route = useRoute<any>();
 
-const [amount, setAmount] = useState(
-  route.params?.amount?.toString() ?? ""
-);
+  const [amount, setAmount] = useState(route.params?.amount?.toString() ?? "");
 
-const [receiptNo, setReceiptNo] = useState(
-  route.params?.receiptNo ?? ""
-);
+  const [receiptNo, setReceiptNo] = useState(route.params?.receiptNo ?? "");
 
   const [upiId, setUpiId] = useState("");
   // const [receiptNo, setReceiptNo] = useState("");
@@ -24,7 +26,7 @@ const [receiptNo, setReceiptNo] = useState(
   const [upiLink, setUpiLink] = useState("");
 
   const generateQR = () => {
-    const UPIID= "chaitraban@okaxis";
+    const UPIID = "chaitraban@okaxis";
     const remark = `ReceiptNo-${receiptNo}`;
     const link =
       `upi://pay?pa=${upiId}` +
@@ -38,13 +40,8 @@ const [receiptNo, setReceiptNo] = useState(
 
   return (
     <ScrollView style={styles.container}>
-
-      <Text style={styles.header}>
-       || चैत्रबन मित्र मंडळ ||
-      </Text>
-    <Text style={styles.label}>
-        पावती क्रमांक / Receipt No
-      </Text>
+      <Text style={styles.header}>|| चैत्रबन मित्र मंडळ ||</Text>
+      <Text style={styles.label}>पावती क्रमांक / Receipt No</Text>
 
       <TextInput
         style={styles.input}
@@ -53,20 +50,16 @@ const [receiptNo, setReceiptNo] = useState(
         placeholder="1001"
       />
 
-      <Text style={styles.label}>
-        UPI ID
-      </Text>
+      <Text style={styles.label}>UPI ID</Text>
 
       <TextInput
         style={styles.input}
         value={upiId}
         onChangeText={setUpiId}
         placeholder="example@upi"
-      />      
+      />
 
-      <Text style={styles.label}>
-        Amount (₹)
-      </Text>
+      <Text style={styles.label}>Amount (₹)</Text>
 
       <TextInput
         style={styles.input}
@@ -76,33 +69,19 @@ const [receiptNo, setReceiptNo] = useState(
         placeholder="100"
       />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={generateQR}
-      >
-        <Text style={styles.buttonText}>
-          QR Generate करा
-        </Text>
+      <TouchableOpacity style={styles.button} onPress={generateQR}>
+        <Text style={styles.buttonText}>QR Generate करा</Text>
       </TouchableOpacity>
 
       {upiLink ? (
         <View style={styles.qrContainer}>
-          <QRCode
-            value={upiLink}
-            size={250}
-          />
+          <QRCode value={upiLink} size={250} />
 
-          <Text style={styles.upiText}>
-            {upiId}
-          </Text>
-          
-          <Text style={styles.receiptText}>
-            Receipt No : {receiptNo}
-          </Text>
-          
-          <Text style={styles.amountText}>
-            ₹ {amount}
-          </Text>
+          <Text style={styles.upiText}>{upiId}</Text>
+
+          <Text style={styles.receiptText}>Receipt No : {receiptNo}</Text>
+
+          <Text style={styles.amountText}>₹ {amount}</Text>
         </View>
       ) : null}
     </ScrollView>
@@ -230,4 +209,3 @@ const styles = StyleSheet.create({
     color: "#16A34A",
   },
 });
-

@@ -49,200 +49,114 @@ export default function ReportsScreen() {
   const totalAmount = data.reduce((sum, item) => sum + Number(item.Amount), 0);
 
   return (
-  <View style={styles.container}>
+    <View style={styles.container}>
+      <Text style={styles.label}>दिनांक / Date</Text>
 
-    <Text style={styles.label}>
-      दिनांक / Date
-    </Text>
-
-    <View style={styles.dateRow}>
-      <TouchableOpacity
-        style={styles.dateInput}
-        onPress={() =>
-          setShowDatePicker(true)
-        }
-      >
-        <Text>
-          {collectionDate
-            ? collectionDate
-                .toISOString()
-                .split("T")[0]
-            : "सर्व दिनांक / All Dates"}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.clearButton}
-        onPress={() =>
-          setCollectionDate(null)
-        }
-      >
-        <Text
-          style={
-            styles.clearButtonText
-          }
+      <View style={styles.dateRow}>
+        <TouchableOpacity
+          style={styles.dateInput}
+          onPress={() => setShowDatePicker(true)}
         >
-          All
-        </Text>
-      </TouchableOpacity>
-    </View>
+          <Text>
+            {collectionDate
+              ? collectionDate.toISOString().split("T")[0]
+              : "सर्व दिनांक / All Dates"}
+          </Text>
+        </TouchableOpacity>
 
-    {showDatePicker && (
-      <DateTimePicker
-        value={
-          collectionDate ??
-          new Date()
-        }
-        mode="date"
-        display={
-          Platform.OS ===
-          "android"
-            ? "default"
-            : "spinner"
-        }
-        onValueChange={
-          onDateChange
-        }
-      />
-    )}
+        <TouchableOpacity
+          style={styles.clearButton}
+          onPress={() => setCollectionDate(null)}
+        >
+          <Text style={styles.clearButtonText}>All</Text>
+        </TouchableOpacity>
+      </View>
 
-    <Text style={styles.label}>
-      स्थिती / Status
-    </Text>
-
-    <View style={styles.picker}>
-      <Picker
-        selectedValue={status}
-        onValueChange={(v) =>
-          setStatus(String(v))
-        }
-      >
-        <Picker.Item
-          label="सर्व / All"
-          value="All"
+      {showDatePicker && (
+        <DateTimePicker
+          value={collectionDate ?? new Date()}
+          mode="date"
+          display={Platform.OS === "android" ? "default" : "spinner"}
+          onValueChange={onDateChange}
         />
-
-        <Picker.Item
-          label="Paid"
-          value="Paid"
-        />
-
-        <Picker.Item
-          label="Unpaid"
-          value="Unpaid"
-        />
-      </Picker>
-    </View>
-
-    <Text style={styles.label}>
-      गल्ली / Lane
-    </Text>
-
-    <View style={styles.picker}>
-      <Picker
-        selectedValue={lane}
-        onValueChange={(v) =>
-          setLane(String(v))
-        }
-      >
-        <Picker.Item
-          label="सर्व / All"
-          value="All"
-        />
-
-        {LANES.map((item) => (
-          <Picker.Item
-            key={item}
-            label={item}
-            value={item}
-          />
-        ))}
-      </Picker>
-    </View>
-
-    <TouchableOpacity
-      style={styles.button}
-      onPress={loadReport}
-    >
-      <Text
-        style={styles.buttonText}
-      >
-        अहवाल पहा
-      </Text>
-    </TouchableOpacity>
-
-    <TouchableOpacity
-      style={styles.exportButton}
-      onPress={() =>
-        exportDonationsToExcel(data)
-      }
-    >
-      <Text
-        style={
-          styles.exportButtonText
-        }
-      >
-        Excel Export
-      </Text>
-    </TouchableOpacity>
-
-    <View style={styles.summary}>
-      <Text>
-        एकूण नोंदी : {data.length}
-      </Text>
-
-      <Text>
-        एकूण रक्कम :
-        ₹ {totalAmount}
-      </Text>
-    </View>
-
-    <FlatList
-      data={data}
-      keyExtractor={(
-        item,
-        index
-      ) =>
-        String(
-          item.Id ?? index
-        )
-      }
-      renderItem={({ item }) => (
-        <View style={styles.card}>
-          <Text>
-            पावती :
-            {" "}
-            {item.ReceiptNo}
-          </Text>
-
-          <Text>
-            नाव :
-            {" "}
-            {item.DonorName}
-          </Text>
-
-          <Text>
-            गल्ली :
-            {" "}
-            {item.Lane}
-          </Text>
-
-          <Text>
-            स्थिती :
-            {" "}
-            {item.Status}
-          </Text>
-
-          <Text>
-            रक्कम :
-            ₹ {item.Amount}
-          </Text>
-        </View>
       )}
-    />
 
-  </View>
-);
+      <Text style={styles.label}>स्थिती / Status</Text>
+
+      <View style={styles.picker}>
+        <Picker
+          selectedValue={status}
+          onValueChange={(v) => setStatus(String(v))}
+        >
+          <Picker.Item label="सर्व / All" value="All" />
+
+          <Picker.Item label="Paid" value="Paid" />
+
+          <Picker.Item label="Unpaid" value="Unpaid" />
+        </Picker>
+      </View>
+
+      <Text style={styles.label}>गल्ली / Lane</Text>
+
+      <View style={styles.picker}>
+        <Picker selectedValue={lane} onValueChange={(v) => setLane(String(v))}>
+          <Picker.Item label="सर्व / All" value="All" />
+
+          {LANES.map((item) => (
+            <Picker.Item key={item} label={item} value={item} />
+          ))}
+        </Picker>
+      </View>
+
+      <TouchableOpacity style={styles.button} onPress={loadReport}>
+        <Text style={styles.buttonText}>अहवाल पहा</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.exportButton}
+        onPress={() => exportDonationsToExcel(data)}
+      >
+        <Text style={styles.exportButtonText}>Excel Export</Text>
+      </TouchableOpacity>
+
+      <View style={styles.summary}>
+        <Text>एकूण नोंदी : {data.length}</Text>
+
+        <Text>एकूण रक्कम : ₹ {totalAmount}</Text>
+      </View>
+
+      <FlatList
+        data={data}
+        keyExtractor={(item, index) => String(item.Id ?? index)}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <View style={styles.twoColumnRow}>
+              <Text style={{ fontWeight: "bold" }}>
+                पावती : {item.ReceiptNo}
+              </Text>
+
+              <Text style={{ fontWeight: "bold" }}>नाव : {item.DonorName}</Text>
+            </View>
+
+            <View style={styles.twoColumnRow}>
+              <Text>दिनांक : {item.CollectionDate}</Text>
+              <Text>गल्ली : {item.Lane}</Text>
+            </View>
+
+            <View style={styles.twoColumnRow}>
+              <Text>स्थिती : {item.Status}</Text>
+
+              <Text>संकलक : {item.CollectorName}</Text>
+            </View>
+
+            <View style={styles.twoColumnRow}>
+              <Text>रक्कम : ₹ {item.Amount}</Text>
+            </View>
+          </View>
+        )}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -253,30 +167,36 @@ const styles = StyleSheet.create({
   },
 
   dateRow: {
-  flexDirection: "row",
-  alignItems: "center",
-  marginBottom: 5,
-},
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 5,
+  },
 
-dateInput: {
-  flex: 1,
-  backgroundColor: "#FFFFFF",
-  borderWidth: 1,
-  borderColor: "#E5E7EB",
-  borderRadius: 14,
-  paddingHorizontal: 14,
-  paddingVertical: 14,
-  marginRight: 8,
-},
+  twoColumnRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 6,
+  },
 
-clearButton: {
-  backgroundColor: "#DC2626",
-  paddingHorizontal: 18,
-  paddingVertical: 14,
-  borderRadius: 14,
-  justifyContent: "center",
-  alignItems: "center",
-},
+  dateInput: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    marginRight: 8,
+  },
+
+  clearButton: {
+    backgroundColor: "#DC2626",
+    paddingHorizontal: 18,
+    paddingVertical: 14,
+    borderRadius: 14,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
   clearButtonText: {
     color: "#FFFFFF",

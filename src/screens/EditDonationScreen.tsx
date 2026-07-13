@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import {
   ScrollView,
@@ -20,10 +19,7 @@ import {
 import { DONOR_TYPES } from "../constants/donorTypes";
 import { LANES } from "../constants/lanes";
 
-export default function EditDonationScreen({
-  route,
-  navigation,
-}: any) {
+export default function EditDonationScreen({ route, navigation }: any) {
   const { donationId } = route.params;
 
   const [donation, setDonation] = useState<any>(null);
@@ -87,23 +83,16 @@ export default function EditDonationScreen({
         Remarks: remarks,
       });
 
-      Alert.alert(
-        "Success",
-        "देणगी माहिती अपडेट झाली",
-        [
-          {
-            text: "OK",
-            onPress: () => navigation.goBack(),
-          },
-        ]
-      );
+      Alert.alert("Success", "देणगी माहिती अपडेट झाली", [
+        {
+          text: "OK",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
     } catch (error) {
       console.log(error);
 
-      Alert.alert(
-        "Error",
-        "डेटा अपडेट करताना समस्या आली"
-      );
+      Alert.alert("Error", "डेटा अपडेट करताना समस्या आली");
     }
   };
 
@@ -116,11 +105,11 @@ export default function EditDonationScreen({
   }
 
   return (
-    <ScrollView style={styles.container}>
-     
-      <Text style={styles.label}>
-        पावती क्रमांक
-      </Text>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{ paddingBottom: 100 }}
+    >
+      <Text style={styles.label}>पावती क्रमांक</Text>
 
       <TextInput
         style={styles.input}
@@ -128,9 +117,7 @@ export default function EditDonationScreen({
         editable={false}
       />
 
-      <Text style={styles.label}>
-        संकलन दिनांक
-      </Text>
+      <Text style={styles.label}>संकलन दिनांक</Text>
 
       <TextInput
         style={styles.input}
@@ -138,9 +125,7 @@ export default function EditDonationScreen({
         editable={false}
       />
 
-      <Text style={styles.label}>
-        देणगीदाराचे नाव
-      </Text>
+      <Text style={styles.label}>देणगीदाराचे नाव</Text>
 
       <TextInput
         style={styles.input}
@@ -148,9 +133,7 @@ export default function EditDonationScreen({
         onChangeText={setDonorName}
       />
 
-      <Text style={styles.label}>
-        मोबाईल
-      </Text>
+      <Text style={styles.label}>मोबाईल</Text>
 
       <TextInput
         style={styles.input}
@@ -159,9 +142,7 @@ export default function EditDonationScreen({
         keyboardType="phone-pad"
       />
 
-      <Text style={styles.label}>
-        पत्ता
-      </Text>
+      <Text style={styles.label}>पत्ता</Text>
 
       <TextInput
         style={styles.input}
@@ -169,51 +150,33 @@ export default function EditDonationScreen({
         onChangeText={setAddress}
       />
 
-      <Text style={styles.label}>
-        देणगीदार प्रकार
-      </Text>
+      <Text style={styles.label}>देणगीदार प्रकार</Text>
 
       <View style={styles.pickerContainer}>
         <Picker
           selectedValue={donorType}
-          onValueChange={(value) =>
-            setDonorType(String(value))
-          }
+          onValueChange={(value) => setDonorType(String(value))}
         >
           {DONOR_TYPES.map((item) => (
-            <Picker.Item
-              key={item}
-              label={item}
-              value={item}
-            />
+            <Picker.Item key={item} label={item} value={item} />
           ))}
         </Picker>
       </View>
 
-      <Text style={styles.label}>
-        गल्ली
-      </Text>
+      <Text style={styles.label}>गल्ली</Text>
 
       <View style={styles.pickerContainer}>
         <Picker
           selectedValue={lane}
-          onValueChange={(value) =>
-            setLane(String(value))
-          }
+          onValueChange={(value) => setLane(String(value))}
         >
           {LANES.map((item) => (
-            <Picker.Item
-              key={item}
-              label={item}
-              value={item}
-            />
+            <Picker.Item key={item} label={item} value={item} />
           ))}
         </Picker>
       </View>
 
-      <Text style={styles.label}>
-        रक्कम
-      </Text>
+      <Text style={styles.label}>रक्कम</Text>
 
       <TextInput
         style={styles.input}
@@ -222,9 +185,7 @@ export default function EditDonationScreen({
         keyboardType="numeric"
       />
 
-      <Text style={styles.label}>
-        संकलकाचे नाव
-      </Text>
+      <Text style={styles.label}>संकलकाचे नाव</Text>
 
       <TextInput
         style={styles.input}
@@ -232,9 +193,7 @@ export default function EditDonationScreen({
         onChangeText={setCollectorName}
       />
 
-      <Text style={styles.label}>
-        शेरा
-      </Text>
+      <Text style={styles.label}>शेरा</Text>
 
       <TextInput
         style={[styles.input, styles.remarks]}
@@ -243,13 +202,8 @@ export default function EditDonationScreen({
         multiline
       />
 
-      <TouchableOpacity
-        style={styles.saveButton}
-        onPress={handleSave}
-      >
-        <Text style={styles.saveButtonText}>
-          अपडेट करा
-        </Text>
+      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+        <Text style={styles.saveButtonText}>अपडेट करा</Text>
       </TouchableOpacity>
     </ScrollView>
   );

@@ -1,7 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   View,
@@ -21,20 +18,14 @@ import {
 } from "../database/upiRepository";
 
 export default function UpiSettingsScreen() {
+  const [accountName, setAccountName] = useState("");
 
-  const [accountName, setAccountName] =
-    useState("");
+  const [upiId, setUpiId] = useState("");
 
-  const [upiId, setUpiId] =
-    useState("");
-
-  const [data, setData] =
-    useState<any[]>([]);
+  const [data, setData] = useState<any[]>([]);
 
   const loadData = async () => {
-
-    const result =
-      await getUpiAccounts();
+    const result = await getUpiAccounts();
 
     setData(result as any[]);
   };
@@ -44,27 +35,17 @@ export default function UpiSettingsScreen() {
   }, []);
 
   const handleSave = async () => {
-
     if (!accountName.trim()) {
-      Alert.alert(
-        "Validation",
-        "Account Name आवश्यक आहे"
-      );
+      Alert.alert("Validation", "Account Name आवश्यक आहे");
       return;
     }
 
     if (!upiId.trim()) {
-      Alert.alert(
-        "Validation",
-        "UPI Id आवश्यक आहे"
-      );
+      Alert.alert("Validation", "UPI Id आवश्यक आहे");
       return;
     }
 
-    await addUpiAccount(
-      accountName,
-      upiId
-    );
+    await addUpiAccount(accountName, upiId);
 
     setAccountName("");
     setUpiId("");
@@ -74,11 +55,6 @@ export default function UpiSettingsScreen() {
 
   return (
     <View style={styles.container}>
-
-      <Text style={styles.title}>
-        UPI Settings
-      </Text>
-
       <TextInput
         style={styles.input}
         placeholder="Account Name"
@@ -93,36 +69,20 @@ export default function UpiSettingsScreen() {
         onChangeText={setUpiId}
       />
 
-      <TouchableOpacity
-        style={styles.saveButton}
-        onPress={handleSave}
-      >
-        <Text style={styles.btnText}>
-          Save UPI
-        </Text>
+      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+        <Text style={styles.btnText}>Save UPI</Text>
       </TouchableOpacity>
 
       <FlatList
         data={data}
-        keyExtractor={(item) =>
-          String(item.Id)
-        }
+        keyExtractor={(item) => String(item.Id)}
         renderItem={({ item }) => (
           <View style={styles.card}>
+            <Text>{item.AccountName}</Text>
 
-            <Text>
-              {item.AccountName}
-            </Text>
+            <Text>{item.UpiId}</Text>
 
-            <Text>
-              {item.UpiId}
-            </Text>
-
-            <Text>
-              {item.IsDefault === 1
-                ? "✅ Default"
-                : ""}
-            </Text>
+            <Text>{item.IsDefault === 1 ? "✅ Default" : ""}</Text>
 
             <View
               style={{
@@ -133,23 +93,17 @@ export default function UpiSettingsScreen() {
               <TouchableOpacity
                 style={styles.defaultBtn}
                 onPress={async () => {
-                  await setDefaultUpi(
-                    item.Id
-                  );
+                  await setDefaultUpi(item.Id);
                   loadData();
                 }}
               >
-                <Text>
-                  Default
-                </Text>
+                <Text>Default</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.deleteBtn}
                 onPress={async () => {
-                  await deleteUpiAccount(
-                    item.Id
-                  );
+                  await deleteUpiAccount(item.Id);
                   loadData();
                 }}
               >
@@ -161,9 +115,7 @@ export default function UpiSettingsScreen() {
                   Delete
                 </Text>
               </TouchableOpacity>
-
             </View>
-
           </View>
         )}
       />
@@ -172,45 +124,45 @@ export default function UpiSettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    padding:15
+  container: {
+    flex: 1,
+    padding: 15,
   },
-  title:{
-    fontSize:24,
-    fontWeight:"bold"
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
   },
-  input:{
-    borderWidth:1,
-    marginTop:10,
-    padding:10,
-    borderRadius:8
+  input: {
+    borderWidth: 1,
+    marginTop: 10,
+    padding: 10,
+    borderRadius: 8,
   },
-  saveButton:{
-    backgroundColor:"#2E7D32",
-    padding:12,
-    marginTop:10,
-    borderRadius:8
+  saveButton: {
+    backgroundColor: "#2E7D32",
+    padding: 12,
+    marginTop: 10,
+    borderRadius: 8,
   },
-  btnText:{
-    color:"#FFF",
-    textAlign:"center"
+  btnText: {
+    color: "#FFF",
+    textAlign: "center",
   },
-  card:{
-    backgroundColor:"#FFF",
-    padding:15,
-    marginTop:10,
-    borderRadius:10
+  card: {
+    backgroundColor: "#FFF",
+    padding: 15,
+    marginTop: 10,
+    borderRadius: 10,
   },
-  defaultBtn:{
-    backgroundColor:"#FFC107",
-    padding:10,
-    borderRadius:8,
-    marginRight:10
+  defaultBtn: {
+    backgroundColor: "#FFC107",
+    padding: 10,
+    borderRadius: 8,
+    marginRight: 10,
   },
-  deleteBtn:{
-    backgroundColor:"#C62828",
-    padding:10,
-    borderRadius:8
-  }
+  deleteBtn: {
+    backgroundColor: "#C62828",
+    padding: 10,
+    borderRadius: 8,
+  },
 });

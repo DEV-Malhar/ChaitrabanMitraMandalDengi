@@ -4,7 +4,7 @@
     "slug": "chaitraban-mitra-mandal-dengi",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/LogoImage/cmmlogo.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true
@@ -14,14 +14,12 @@
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/LogoImage/cmmlogo.png"
       },
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/LogoImage/cmmlogo.png"
     },
     "plugins": [
       "@react-native-community/datetimepicker",
@@ -29,7 +27,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "966309c3-f00b-4310-a811-afcf565ffa2c"
+        "projectId": "0660ff77-9a5a-4e6a-82ad-0344ef848d8d"
       }
     }
   }

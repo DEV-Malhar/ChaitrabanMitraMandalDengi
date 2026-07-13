@@ -36,17 +36,17 @@ export default function HomeScreen({ navigation }: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[styles.card, styles.upiCard]}
-        onPress={() => navigation.navigate("UpiQrScreen")}
+        style={[styles.card, styles.upiCardSettings]}
+        onPress={() => navigation.navigate("UpiSettings")}
       >
-        <Text style={styles.cardText}>📱 UPI QR</Text>
+        <Text style={styles.cardText}>⚙️ UPI Settings</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.card, styles.upiCard]}
-        onPress={() => navigation.navigate("UpiSettings")}
+        onPress={() => navigation.navigate("UpiQrScreen")}
       >
-        <Text style={styles.cardText}>⚙️ UPI Settings</Text>
+        <Text style={styles.cardText}>📱 UPI QR</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -113,6 +113,10 @@ const styles = StyleSheet.create({
 
   upiCard: {
     backgroundColor: "#6A1B9A", // Purple
+  },
+
+  upiCardSettings: {
+    backgroundColor: "#9f4a08", // Purple
   },
 
   adminCard: {
